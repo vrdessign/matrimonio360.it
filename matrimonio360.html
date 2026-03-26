@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrimonio360 — Memoria Immersiva del Tuo Giorno Più Bello</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F9F4EE;
+  --gold: #C9A96E;
+  --gold-light: #E8D5B0;
+  --gold-pale: #F5ECD9;
+  --dark: #14100C;
+  --dark2: #1E1812;
+  --brown: #6B4C2A;
+  --warm-gray: #8A7F74;
+  --blush: #E8D5C4;
+  --rose: #9B5E5E;
+  --white: #FFFFFF;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--dark);
+  color:var(--cream);
+  font-family:'Jost',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* CUSTOM CURSOR */
+.cursor{
+  position:fixed;
+  width:8px;height:8px;
+  background:var(--gold);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .1s ease;
+}
+.cursor-ring{
+  position:fixed;
+  width:36px;height:36px;
+  border:1px solid rgba(201,169,110,0.5);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:all .2s ease;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 60px;
+  background:linear-gradient(to bottom,rgba(20,16,12,0.95),transparent);
+  transition:all .4s ease;
+}
+nav.scrolled{
+  background:rgba(14,10,8,0.97);
+  padding:16px 60px;
+  border-bottom:1px solid rgba(201,169,110,0.15);
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;
+  font-weight:400;
+  color:var(--cream);
+  text-decoration:none;
+  letter-spacing:1px;
+}
+.nav-logo em{color:var(--gold);font-style:italic;}
+.nav-links{
+  display:flex;gap:40px;
+  list-style:none;
+}
+.nav-links a{
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:rgba(249,244,238,0.6);
+  text-decoration:none;
+  transition:color .3s;
+}
+.nav-links a:hover{color:var(--gold);}
+.nav-cta{
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gold);
+  border:1px solid var(--gold);
+  padding:10px 24px;
+  text-decoration:none;
+  transition:all .3s ease;
+}
+.nav-cta:hover{background:var(--gold);color:var(--dark);}
+
+/* HERO */
+.hero{
+  height:100vh;min-height:700px;
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+
+#hero-canvas{
+  position:absolute;inset:0;width:100%;height:100%;
+  z-index:0;
+}
+
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    135deg,
+    rgba(14,10,8,0.7) 0%,
+    rgba(14,10,8,0.3) 50%,
+    rgba(14,10,8,0.75) 100%
+  );
+  z-index:1;
+}
+
+.hero-grain{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.4;z-index:2;pointer-events:none;
+}
+
+.hero-content{
+  position:relative;z-index:3;
+  text-align:center;
+  padding:0 40px;
+}
+
+.hero-eyebrow{
+  font-size:10px;
+  letter-spacing:6px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:32px;
+  opacity:0;
+  animation:fadeUp 1s ease .5s forwards;
+}
+
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(56px,9vw,120px);
+  font-weight:300;
+  line-height:.95;
+  letter-spacing:-2px;
+  margin-bottom:32px;
+  opacity:0;
+  animation:fadeUp 1.2s ease .7s forwards;
+}
+.hero-title em{
+  font-style:italic;
+  color:var(--gold);
+  display:block;
+}
+
+.hero-sub{
+  font-size:15px;
+  color:rgba(249,244,238,0.6);
+  max-width:500px;
+  margin:0 auto 50px;
+  line-height:1.8;
+  opacity:0;
+  animation:fadeUp 1s ease 1s forwards;
+}
+
+.hero-actions{
+  display:flex;align-items:center;justify-content:center;
+  gap:24px;flex-wrap:wrap;
+  opacity:0;
+  animation:fadeUp 1s ease 1.2s forwards;
+}
+
+.btn-primary{
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  background:var(--gold);
+  color:var(--dark);
+  padding:18px 44px;
+  text-decoration:none;
+  font-weight:500;
+  transition:all .3s;
+  border:none;cursor:pointer;
+  display:inline-block;
+}
+.btn-primary:hover{background:var(--gold-light);}
+
+.btn-ghost{
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--cream);
+  padding:18px 44px;
+  text-decoration:none;
+  border:1px solid rgba(249,244,238,0.3);
+  transition:all .3s;
+  display:inline-block;
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+
+.hero-scroll{
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  opacity:0;
+  animation:fadeUp 1s ease 1.5s forwards;
+}
+.hero-scroll span{
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(249,244,238,0.4);
+}
+.scroll-line{
+  width:1px;height:50px;
+  background:linear-gradient(to bottom,var(--gold),transparent);
+  animation:scrollPulse 2s ease infinite;
+}
+
+/* 360 VIEWER SECTION */
+.viewer-section{
+  background:var(--dark2);
+  padding:100px 0;
+  overflow:hidden;
+}
+.viewer-inner{
+  max-width:1200px;margin:0 auto;padding:0 60px;
+}
+.section-tag{
+  font-size:10px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:20px;
+}
+.section-tag::before{content:'';width:30px;height:1px;background:var(--gold);}
+h2.display{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(38px,5vw,64px);
+  font-weight:300;
+  line-height:1.05;
+  margin-bottom:20px;
+}
+h2.display em{font-style:italic;color:var(--gold);}
+
+.viewer-layout{
+  display:grid;grid-template-columns:1fr 1.4fr;
+  gap:60px;align-items:center;margin-top:60px;
+}
+.viewer-text p{
+  color:rgba(249,244,238,0.6);
+  font-size:15px;line-height:1.9;
+  margin-bottom:20px;
+}
+.viewer-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(201,169,110,0.1);
+  border:1px solid rgba(201,169,110,0.3);
+  padding:10px 20px;
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:32px;
+}
+
+#viewer360{
+  width:100%;
+  aspect-ratio:16/10;
+  border-radius:0;
+  overflow:hidden;
+  position:relative;
+  border:1px solid rgba(201,169,110,0.2);
+}
+
+#viewer360 canvas{
+  width:100%;height:100%;display:block;
+}
+
+.viewer-controls{
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;
+  background:rgba(14,10,8,0.8);
+  padding:10px 16px;
+  border:1px solid rgba(201,169,110,0.2);
+}
+.viewer-controls span{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(249,244,238,0.5);
+}
+.viewer-drag-hint{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  pointer-events:none;
+  text-align:center;
+  opacity:1;transition:opacity .5s;
+}
+.viewer-drag-hint .drag-icon{font-size:36px;margin-bottom:8px;}
+.viewer-drag-hint span{
+  display:block;font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(249,244,238,0.7);
+}
+
+/* SERVICES / PACKAGES */
+.packages-section{
+  padding:120px 0;
+  background:var(--dark);
+  position:relative;
+}
+.packages-section::before{
+  content:'360°';
+  position:absolute;right:-60px;top:50%;transform:translateY(-50%);
+  font-family:'Cormorant Garamond',serif;
+  font-size:300px;font-weight:300;
+  color:rgba(201,169,110,0.04);
+  line-height:1;pointer-events:none;
+  white-space:nowrap;
+}
+.packages-inner{max-width:1200px;margin:0 auto;padding:0 60px;}
+
+.pkg-tabs{
+  display:flex;gap:0;margin-top:60px;
+  border-bottom:1px solid rgba(201,169,110,0.2);
+}
+.pkg-tab{
+  padding:16px 32px;
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(249,244,238,0.4);
+  cursor:pointer;border-bottom:2px solid transparent;
+  transition:all .3s;border:none;background:none;
+  margin-bottom:-1px;
+}
+.pkg-tab:hover{color:var(--gold);}
+.pkg-tab.active{
+  color:var(--gold);
+  border-bottom:2px solid var(--gold);
+}
+
+.pkg-panels{margin-top:0;}
+.pkg-panel{display:none;}
+.pkg-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+
+.pkg-info{
+  padding:60px 50px 60px 0;
+  border-right:1px solid rgba(201,169,110,0.15);
+}
+.pkg-tier{
+  font-size:9px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:16px;
+}
+.pkg-name-big{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(42px,6vw,72px);
+  font-weight:300;line-height:1;
+  margin-bottom:12px;
+}
+.pkg-price-big{
+  font-size:14px;letter-spacing:2px;
+  color:var(--gold);margin-bottom:32px;
+}
+.pkg-price-big strong{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;color:var(--cream);font-weight:300;
+}
+.pkg-desc-long{
+  color:rgba(249,244,238,0.6);
+  font-size:15px;line-height:1.8;
+  margin-bottom:36px;
+}
+.pkg-cta{display:inline-block;margin-top:8px;}
+
+.pkg-features-col{
+  padding:60px 0 60px 50px;
+}
+.pkg-feat-title{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--warm-gray);margin-bottom:28px;
+}
+.feat-list{list-style:none;}
+.feat-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 0;
+  border-bottom:1px solid rgba(201,169,110,0.1);
+}
+.feat-item:last-child{border:none;}
+.feat-diamond{
+  width:8px;height:8px;
+  border:1px solid var(--gold);
+  transform:rotate(45deg);
+  flex-shrink:0;margin-top:5px;
+}
+.feat-text{font-size:14px;color:rgba(249,244,238,0.8);line-height:1.5;}
+.feat-sub{font-size:12px;color:var(--warm-gray);margin-top:3px;}
+
+/* TECNOLOGIA SELECTOR */
+.tech-section{
+  background:#0F0C09;
+  padding:120px 0;
+}
+.tech-inner{max-width:1200px;margin:0 auto;padding:0 60px;}
+
+.tech-compare{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(201,169,110,0.15);
+  margin-top:60px;
+  border:1px solid rgba(201,169,110,0.15);
+}
+.tech-col{
+  background:var(--dark);
+  padding:48px 36px;
+  position:relative;
+  cursor:pointer;
+  transition:background .4s;
+}
+.tech-col:hover,.tech-col.selected{background:#1A1410;}
+.tech-col.selected::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;
+  height:2px;background:var(--gold);
+}
+.tech-label{
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--warm-gray);margin-bottom:12px;
+}
+.tech-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;font-weight:300;
+  margin-bottom:8px;
+  transition:color .3s;
+}
+.tech-col:hover .tech-name,.tech-col.selected .tech-name{color:var(--gold);}
+.tech-res{
+  font-size:11px;letter-spacing:2px;
+  color:var(--warm-gray);margin-bottom:24px;
+}
+.tech-bar-wrap{
+  height:3px;background:rgba(201,169,110,0.15);
+  margin-bottom:24px;
+}
+.tech-bar{height:100%;background:var(--gold);transition:width .6s ease;}
+.tech-price{
+  font-size:13px;color:var(--gold);
+}
+.tech-price strong{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;color:var(--cream);font-weight:300;
+}
+.tech-bullets{margin-top:24px;list-style:none;}
+.tech-bullet{
+  font-size:12px;color:rgba(249,244,238,0.5);
+  padding:6px 0;display:flex;gap:8px;align-items:center;
+}
+.tech-bullet::before{content:'·';color:var(--gold);}
+
+/* PROCESS */
+.process-section{
+  padding:120px 0;
+  background:var(--dark2);
+}
+.process-inner{max-width:1200px;margin:0 auto;padding:0 60px;}
+.process-steps{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;margin-top:60px;
+  position:relative;
+}
+.process-steps::before{
+  content:'';
+  position:absolute;top:32px;left:5%;right:5%;
+  height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);
+}
+.step{
+  padding:0 24px;
+  text-align:center;
+  position:relative;
+}
+.step-num{
+  width:64px;height:64px;
+  border:1px solid rgba(201,169,110,0.4);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 28px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:300;color:var(--gold);
+  background:var(--dark2);
+  position:relative;z-index:1;
+}
+.step h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:400;
+  margin-bottom:12px;
+}
+.step p{font-size:13px;color:rgba(249,244,238,0.5);line-height:1.7;}
+
+/* GALLERY / SHOWCASE */
+.gallery-section{
+  padding:120px 0;
+  background:var(--dark);
+  overflow:hidden;
+}
+.gallery-inner{max-width:1200px;margin:0 auto;padding:0 60px;}
+.gallery-strip{
+  display:flex;gap:16px;
+  margin-top:60px;
+  overflow:hidden;
+}
+.gallery-item{
+  flex-shrink:0;
+  position:relative;
+  overflow:hidden;
+}
+.gallery-item canvas{display:block;}
+.gallery-caption{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px;
+  background:linear-gradient(to top,rgba(14,10,8,0.9),transparent);
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(249,244,238,0.7);
+}
+
+/* TESTIMONIALS */
+.testimonials{
+  padding:120px 0;
+  background:#0A0806;
+}
+.test-inner{max-width:900px;margin:0 auto;padding:0 60px;text-align:center;}
+.test-carousel{margin-top:60px;position:relative;min-height:200px;}
+.testimonial{
+  display:none;
+  opacity:0;transition:opacity .5s;
+}
+.testimonial.active{display:block;opacity:1;}
+.test-quote{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(22px,3vw,32px);
+  font-weight:300;font-style:italic;
+  line-height:1.5;color:var(--cream);
+  margin-bottom:32px;
+}
+.test-author{
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);
+}
+.test-dots{
+  display:flex;justify-content:center;gap:10px;margin-top:40px;
+}
+.test-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(201,169,110,0.3);cursor:pointer;
+  transition:all .3s;border:none;
+}
+.test-dot.active{background:var(--gold);transform:scale(1.3);}
+
+/* COPERTURA */
+.copertura{
+  padding:80px 0;
+  background:rgba(201,169,110,0.05);
+  border-top:1px solid rgba(201,169,110,0.1);
+  border-bottom:1px solid rgba(201,169,110,0.1);
+}
+.cop-inner{
+  max-width:1200px;margin:0 auto;padding:0 60px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:40px;flex-wrap:wrap;
+}
+.cop-text h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;font-weight:300;margin-bottom:8px;
+}
+.cop-text p{
+  color:rgba(249,244,238,0.5);font-size:14px;
+}
+.cop-regions{
+  display:flex;flex-wrap:wrap;gap:10px;max-width:500px;
+}
+.cop-region{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);
+  border:1px solid rgba(201,169,110,0.3);
+  padding:6px 14px;
+}
+
+/* CONTACT */
+.contact-section{
+  padding:120px 0;
+  background:var(--dark2);
+}
+.contact-inner{
+  max-width:1200px;margin:0 auto;padding:0 60px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;
+}
+.contact-left h2{margin-bottom:24px;}
+.contact-left p{
+  color:rgba(249,244,238,0.5);font-size:15px;line-height:1.8;margin-bottom:40px;
+}
+.contact-detail{
+  display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;
+}
+.contact-icon{font-size:20px;}
+.contact-detail-text{
+  font-size:13px;color:rgba(249,244,238,0.7);line-height:1.6;
+}
+.contact-detail-text a{color:var(--gold);text-decoration:none;}
+.contact-form{display:flex;flex-direction:column;gap:16px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:8px;}
+.form-group label{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--warm-gray);
+}
+.form-group input,
+.form-group select,
+.form-group textarea{
+  background:rgba(249,244,238,0.04);
+  border:1px solid rgba(201,169,110,0.2);
+  color:var(--cream);
+  padding:14px 16px;
+  font-family:'Jost',sans-serif;
+  font-size:14px;font-weight:300;
+  outline:none;
+  transition:border-color .3s;
+  appearance:none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  border-color:var(--gold);
+}
+.form-group select option{background:var(--dark2);}
+.form-group textarea{resize:vertical;min-height:100px;}
+.form-submit{
+  background:var(--gold);color:var(--dark);
+  border:none;padding:18px;
+  font-family:'Jost',sans-serif;
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  font-weight:500;cursor:pointer;
+  transition:background .3s;
+}
+.form-submit:hover{background:var(--gold-light);}
+
+/* FOOTER */
+footer{
+  background:var(--dark);
+  border-top:1px solid rgba(201,169,110,0.1);
+  padding:60px;
+}
+.footer-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  flex-wrap:wrap;gap:40px;
+}
+.footer-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:300;color:var(--cream);
+}
+.footer-logo em{color:var(--gold);font-style:italic;}
+.footer-tagline{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--warm-gray);margin-top:8px;
+}
+.footer-links{
+  display:flex;flex-direction:column;gap:10px;
+}
+.footer-links a{
+  font-size:12px;letter-spacing:1px;
+  color:rgba(249,244,238,0.4);text-decoration:none;
+  transition:color .3s;
+}
+.footer-links a:hover{color:var(--gold);}
+.footer-bottom{
+  border-top:1px solid rgba(201,169,110,0.1);
+  margin-top:40px;padding-top:24px;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  max-width:1200px;margin-left:auto;margin-right:auto;
+}
+.footer-bottom span{
+  font-size:11px;letter-spacing:1px;
+  color:rgba(249,244,238,0.2);
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes scrollPulse{
+  0%,100%{opacity:.4;transform:scaleY(1);}
+  50%{opacity:1;transform:scaleY(1.2);}
+}
+@keyframes shimmer{
+  0%{background-position:-200% center;}
+  100%{background-position:200% center;}
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:20px 24px;}
+  nav.scrolled{padding:14px 24px;}
+  .nav-links,.nav-cta{display:none;}
+  section,.packages-inner,.tech-inner,.process-inner,.gallery-inner,.test-inner,.cop-inner,.contact-inner,.footer-inner{
+    padding-left:24px;padding-right:24px;
+  }
+  .viewer-layout{grid-template-columns:1fr;}
+  .pkg-panel.active{grid-template-columns:1fr;}
+  .pkg-features-col{padding:0;}
+  .pkg-info{border:none;padding-right:0;}
+  .tech-compare{grid-template-columns:1fr;}
+  .process-steps{grid-template-columns:1fr 1fr;}
+  .process-steps::before{display:none;}
+  .contact-inner{grid-template-columns:1fr;}
+  .cop-inner{flex-direction:column;}
+  .form-row{grid-template-columns:1fr;}
+  footer{padding:40px 24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">matrimonio<em>360</em></a>
+  <ul class="nav-links">
+    <li><a href="#esperienza">Esperienza</a></li>
+    <li><a href="#pacchetti">Pacchetti</a></li>
+    <li><a href="#tecnologia">Tecnologia</a></li>
+    <li><a href="#processo">Come Funziona</a></li>
+    <li><a href="#contatti">Contatti</a></li>
+  </ul>
+  <a href="#contatti" class="nav-cta">Richiedi Preventivo</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Video Immersivi 360° · Matrimoni in Tutta Italia</div>
+    <h1 class="hero-title">
+      Il Tuo Giorno<br><em>Per Sempre</em>
+    </h1>
+    <p class="hero-sub">Rivivilo esattamente come era. Ogni sorriso, ogni emozione, ogni dettaglio — in una dimensione che nessun video tradizionale può raggiungere.</p>
+    <div class="hero-actions">
+      <a href="#pacchetti" class="btn-primary">Scopri i Pacchetti</a>
+      <a href="#esperienza" class="btn-ghost">Prova il 360°</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scorri</span>
+  </div>
+</section>
+
+<!-- 360 VIEWER -->
+<section class="viewer-section" id="esperienza">
+  <div class="viewer-inner">
+    <div class="section-tag">Tecnologia Immersiva</div>
+    <h2 class="display">Senti di <em>esserci ancora</em></h2>
+    <div class="viewer-layout">
+      <div class="viewer-text">
+        <div class="viewer-badge">
+          <span>▶</span> Demo Interattiva 360°
+        </div>
+        <p>Trascina il cursore nell'immagine qui a destra e <strong>guarda in ogni direzione</strong> — esattamente come farai il giorno del tuo matrimonio, e per tutti gli anni a venire.</p>
+        <p>Questa non è una semplice ripresa: è la capacità di tornare in ogni angolo della cerimonia, rivedere il momento esatto del sì, rivivere la gioia degli ospiti attorno a te.</p>
+        <p>Compatibile con smartphone, tablet, visori VR (Meta Quest, Apple Vision Pro) e qualsiasi browser moderno.</p>
+        <a href="#contatti" class="btn-primary" style="margin-top:16px;">Prenota la Tua Data</a>
+      </div>
+      <div id="viewer360">
+        <canvas id="canvas360"></canvas>
+        <div class="viewer-drag-hint" id="dragHint">
+          <div class="drag-icon">⟳</div>
+          <span>Trascina per esplorare</span>
+        </div>
+        <div class="viewer-controls">
+          <span>↔ Trascina · Scorri per zoom</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages-section" id="pacchetti">
+  <div class="packages-inner">
+    <div class="section-tag">L'Offerta</div>
+    <h2 class="display">Scegli la tua<br><em>esperienza</em></h2>
+    <div class="pkg-tabs" role="tablist">
+      <button class="pkg-tab active" onclick="showPkg('sphera')" role="tab">Sphera 5.7K</button>
+      <button class="pkg-tab" onclick="showPkg('immersio')" role="tab">Immersio 8K</button>
+      <button class="pkg-tab" onclick="showPkg('cinema')" role="tab">Cinema Totale</button>
+    </div>
+    <div class="pkg-panels">
+
+      <!-- 5.7K -->
+      <div class="pkg-panel active" id="panel-sphera">
+        <div class="pkg-info">
+          <div class="pkg-tier">Pacchetto Essenziale · 5.7K</div>
+          <div class="pkg-name-big">Sphera</div>
+          <div class="pkg-price-big">A partire da <strong>€ 1.800</strong></div>
+          <p class="pkg-desc-long">Il punto di ingresso perfetto nel mondo dell'immersività. Qualità 5.7K sufficiente per un'esperienza coinvolgente su tutti i dispositivi, inclusi i visori VR di ultima generazione. Ideale per cerimonie intime o per chi si avvicina per la prima volta alla tecnologia 360°.</p>
+          <a href="#contatti" class="btn-primary pkg-cta">Richiedi Preventivo →</a>
+        </div>
+        <div class="pkg-features-col">
+          <div class="pkg-feat-title">Cosa include</div>
+          <ul class="feat-list">
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Riprese 360° cerimonia + cocktail</div><div class="feat-sub">Copertura completa del momento centrale</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Risoluzione 5.7K ad alta nitidezza</div><div class="feat-sub">Ottima qualità visiva su ogni dispositivo</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">1 operatore 360° certificato</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Highlight reel 3–5 minuti</div><div class="feat-sub">Montaggio dei momenti più emozionanti</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Link streaming VR + download HD</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Compatibilità visori VR consumer</div><div class="feat-sub">Meta Quest, Cardboard, smartphone</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Consegna entro 30 giorni</div></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 8K -->
+      <div class="pkg-panel" id="panel-immersio">
+        <div class="pkg-info">
+          <div class="pkg-tier">Pacchetto Più Richiesto · 8K</div>
+          <div class="pkg-name-big">Immersio</div>
+          <div class="pkg-price-big">A partire da <strong>€ 3.200</strong></div>
+          <p class="pkg-desc-long">La scelta dei perfezionisti. La risoluzione 8K cattura ogni petalo, ogni lacrima di gioia, ogni sorriso con una nitidezza che lascia senza fiato. Copertura estesa dall'apertura all'ultima danza, con editing narrativo che racconta la storia della vostra giornata.</p>
+          <a href="#contatti" class="btn-primary pkg-cta">Richiedi Preventivo →</a>
+        </div>
+        <div class="pkg-features-col">
+          <div class="pkg-feat-title">Tutto del 5.7K, più:</div>
+          <ul class="feat-list">
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Copertura intera giornata</div><div class="feat-sub">Dal preparativi alla festa finale</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Risoluzione 8K cinema-grade</div><div class="feat-sub">Dettaglio incredibile anche su grandi schermi</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">2 operatori + stabilizzazione gimbal</div><div class="feat-sub">Riprese fluide e professionali</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Film narrativo 8–12 minuti</div><div class="feat-sub">Montaggio con arco narrativo emozionale</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Riprese drone panoramiche</div><div class="feat-sub">Prospettiva aerea della location</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Piattaforma streaming privata 1 anno</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Supporto Apple Vision Pro e Meta Quest 3</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Consegna entro 21 giorni</div></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CINEMA -->
+      <div class="pkg-panel" id="panel-cinema">
+        <div class="pkg-info">
+          <div class="pkg-tier">Pacchetto Luxury · Cinematografico</div>
+          <div class="pkg-name-big">Cinema<br>Totale</div>
+          <div class="pkg-price-big">A partire da <strong>€ 6.500</strong></div>
+          <p class="pkg-desc-long">L'esperienza definitiva. Un film d'autore immersivo della vostra storia, realizzato con la cura e la precisione di una produzione cinematografica professionale. Color grading in DaVinci Resolve, colonna sonora su misura, regia dedicata. Il vostro matrimonio come opera d'arte.</p>
+          <a href="#contatti" class="btn-primary pkg-cta">Richiedi Preventivo →</a>
+        </div>
+        <div class="pkg-features-col">
+          <div class="pkg-feat-title">L'esperienza completa:</div>
+          <ul class="feat-list">
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Multi-camera 8K 360° + tradizionale</div><div class="feat-sub">Ogni angolo catturato simultaneamente</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Regia cinematografica dedicata</div><div class="feat-sub">Un regista che vive la giornata con voi</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Color grading DaVinci Resolve</div><div class="feat-sub">Palette cromatica personalizzata</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Colonna sonora su misura</div><div class="feat-sub">Composizione originale o licenza premium</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Director's cut 20–30 minuti</div><div class="feat-sub">Il racconto completo del vostro giorno</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Making of + behind the scenes</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Piattaforma VIP 3 anni + archivio cloud</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Visore VR in omaggio per il vostro evento</div></div></li>
+            <li class="feat-item"><div class="feat-diamond"></div><div><div class="feat-text">Consegna prioritaria 14 giorni</div></div></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGIA SELECTOR -->
+<section class="tech-section" id="tecnologia">
+  <div class="tech-inner">
+    <div class="section-tag">Confronto Tecnologie</div>
+    <h2 class="display">Scegli la<br><em>risoluzione</em> giusta</h2>
+    <div class="tech-compare">
+      <div class="tech-col selected" onclick="selectTech(this)">
+        <div class="tech-label">Livello 01</div>
+        <div class="tech-name">5.7K</div>
+        <div class="tech-res">5760 × 2880 px</div>
+        <div class="tech-bar-wrap"><div class="tech-bar" style="width:55%"></div></div>
+        <div class="tech-price">Da <strong>€ 1.800</strong></div>
+        <ul class="tech-bullets">
+          <li class="tech-bullet">Ottimo per smartphone e VR entry-level</li>
+          <li class="tech-bullet">File leggeri, condivisione semplice</li>
+          <li class="tech-bullet">Ideale per cerimonie civili e intime</li>
+          <li class="tech-bullet">Compatibile con tutti i visori</li>
+        </ul>
+      </div>
+      <div class="tech-col" onclick="selectTech(this)">
+        <div class="tech-label">Livello 02 · Più scelto</div>
+        <div class="tech-name">8K</div>
+        <div class="tech-res">7680 × 3840 px</div>
+        <div class="tech-bar-wrap"><div class="tech-bar" style="width:80%"></div></div>
+        <div class="tech-price">Da <strong>€ 3.200</strong></div>
+        <ul class="tech-bullets">
+          <li class="tech-bullet">Qualità cinema per ogni dettaglio</li>
+          <li class="tech-bullet">Perfetto per Meta Quest 3 e Apple Vision Pro</li>
+          <li class="tech-bullet">Proiezione su maxi-schermo 8K</li>
+          <li class="tech-bullet">Standard professionale internazionale</li>
+        </ul>
+      </div>
+      <div class="tech-col" onclick="selectTech(this)">
+        <div class="tech-label">Livello 03 · Premium</div>
+        <div class="tech-name">Cinema</div>
+        <div class="tech-res">Multi-camera · RAW</div>
+        <div class="tech-bar-wrap"><div class="tech-bar" style="width:100%"></div></div>
+        <div class="tech-price">Da <strong>€ 6.500</strong></div>
+        <ul class="tech-bullets">
+          <li class="tech-bullet">Riprese RAW in log per massima resa</li>
+          <li class="tech-bullet">Post-produzione cinematografica completa</li>
+          <li class="tech-bullet">Qualità festival e proiezioni speciali</li>
+          <li class="tech-bullet">L'unico limite è la vostra immaginazione</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSO -->
+<section class="process-section" id="processo">
+  <div class="process-inner">
+    <div class="section-tag">Come Funziona</div>
+    <h2 class="display">Quattro passi verso<br><em>l'immortalità</em></h2>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Consulenza Gratuita</h3>
+        <p>Parliamo del vostro matrimonio, della location, delle vostre aspettative. Scegliamo insieme il pacchetto più adatto.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Sopralluogo Virtuale</h3>
+        <p>Il nostro team studia la location per pianificare le riprese, i punti strategici e la regia del giorno.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Il Grande Giorno</h3>
+        <p>Siamo lì, discreti e professionali. Catturiamo ogni emozione senza interferire con la magia del momento.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>Consegna & Memoria</h3>
+        <p>Ricevete il link alla vostra piattaforma privata. Rivivete il vostro matrimonio da qualsiasi dispositivo, per sempre.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonials">
+  <div class="test-inner">
+    <div class="section-tag" style="justify-content:center;">Cosa Dicono Gli Sposi</div>
+    <div class="test-carousel">
+      <div class="testimonial active">
+        <p class="test-quote">"Ho pianto di nuovo come il primo giorno. Indossare il visore e tornare in quella chiesa — con mio marito che mi aspettava all'altare — è stata un'emozione che non trovo parole per descrivere."</p>
+        <div class="test-author">Giulia & Marco · Milano · Pacchetto Immersio 8K</div>
+      </div>
+      <div class="testimonial">
+        <p class="test-quote">"I nostri genitori vivono in Australia. Grazie al 360° hanno potuto 'essere' al nostro matrimonio dall'altra parte del mondo, come se ci fossero davvero. Senza matrimonio360 non sarebbe mai stato possibile."</p>
+        <div class="test-author">Sofia & Luca · Roma · Pacchetto Cinema Totale</div>
+      </div>
+      <div class="testimonial">
+        <p class="test-quote">"Scettici all'inizio, convinti dopo. La qualità è incredibile — si vede ogni dettaglio del bouquet, si sentono i sussurri. È come avere una macchina del tempo."</p>
+        <div class="test-author">Valentina & Andrea · Firenze · Pacchetto Sphera 5.7K</div>
+      </div>
+    </div>
+    <div class="test-dots">
+      <button class="test-dot active" onclick="goTest(0)"></button>
+      <button class="test-dot" onclick="goTest(1)"></button>
+      <button class="test-dot" onclick="goTest(2)"></button>
+    </div>
+  </div>
+</section>
+
+<!-- COPERTURA NAZIONALE -->
+<div class="copertura">
+  <div class="cop-inner">
+    <div class="cop-text">
+      <h3>Operiamo in<br><em style="color:var(--gold);font-style:italic;">tutta Italia</em></h3>
+      <p>Trasferta inclusa nelle principali città.<br>Consulta le tariffe per location remote.</p>
+    </div>
+    <div class="cop-regions">
+      <div class="cop-region">Milano</div>
+      <div class="cop-region">Roma</div>
+      <div class="cop-region">Firenze</div>
+      <div class="cop-region">Venezia</div>
+      <div class="cop-region">Napoli</div>
+      <div class="cop-region">Torino</div>
+      <div class="cop-region">Bologna</div>
+      <div class="cop-region">Amalfi</div>
+      <div class="cop-region">Costiera Sorrentina</div>
+      <div class="cop-region">Lago di Como</div>
+      <div class="cop-region">Toscana</div>
+      <div class="cop-region">Sicilia</div>
+      <div class="cop-region">Sardegna</div>
+      <div class="cop-region">Puglia</div>
+      <div class="cop-region">+ tutta Italia</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contatti">
+  <div class="contact-inner">
+    <div class="contact-left">
+      <div class="section-tag">Contatti</div>
+      <h2 class="display">Inizia la<br><em>tua storia</em></h2>
+      <p>Scrivi o chiamaci per una consulenza gratuita senza impegno. Ti risponderemo entro 24 ore con una proposta personalizzata per il vostro giorno speciale.</p>
+      <div class="contact-detail">
+        <div class="contact-icon">✉</div>
+        <div class="contact-detail-text">
+          <div style="color:var(--warm-gray);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Email</div>
+          <a href="mailto:info@matrimonio360.it">info@matrimonio360.it</a>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">🌐</div>
+        <div class="contact-detail-text">
+          <div style="color:var(--warm-gray);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Sito</div>
+          <a href="https://matrimonio360.it">www.matrimonio360.it</a>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">📍</div>
+        <div class="contact-detail-text">
+          <div style="color:var(--warm-gray);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Operatività</div>
+          <span style="color:rgba(249,244,238,0.7);">Tutta Italia · Trasferte incluse</span>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right">
+      <form class="contact-form" onsubmit="handleForm(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome Sposa/o</label>
+            <input type="text" placeholder="Il tuo nome">
+          </div>
+          <div class="form-group">
+            <label>Cognome</label>
+            <input type="text" placeholder="Il tuo cognome">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="nome@email.it">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Data del Matrimonio</label>
+            <input type="date">
+          </div>
+          <div class="form-group">
+            <label>Città / Location</label>
+            <input type="text" placeholder="es. Villa del Borghese, Roma">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Pacchetto di Interesse</label>
+          <select>
+            <option value="">Seleziona un pacchetto...</option>
+            <option value="sphera">Sphera 5.7K — da € 1.800</option>
+            <option value="immersio">Immersio 8K — da € 3.200</option>
+            <option value="cinema">Cinema Totale — da € 6.500</option>
+            <option value="info">Non lo so ancora, voglio informazioni</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Messaggio</label>
+          <textarea placeholder="Raccontateci del vostro matrimonio..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Invia Richiesta →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">matrimonio<em>360</em></div>
+      <div class="footer-tagline">Memoria Immersiva · Italia</div>
+    </div>
+    <div class="footer-links">
+      <a href="#esperienza">Esperienza 360°</a>
+      <a href="#pacchetti">Pacchetti</a>
+      <a href="#tecnologia">Tecnologia</a>
+      <a href="#contatti">Contatti</a>
+    </div>
+    <div>
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-gray);margin-bottom:10px;">Contatto Diretto</div>
+      <a href="mailto:info@matrimonio360.it" style="color:var(--gold);text-decoration:none;font-size:14px;">info@matrimonio360.it</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 matrimonio360.it — Tutti i diritti riservati</span>
+    <span>P.IVA · Privacy Policy · Cookie Policy</span>
+    <span>Powered by Tour Virtuale Digital</span>
+  </div>
+</footer>
+
+<div id="form-success" style="display:none;position:fixed;inset:0;background:rgba(14,10,8,0.95);z-index:999;display:none;align-items:center;justify-content:center;text-align:center;">
+  <div>
+    <div style="font-size:60px;margin-bottom:24px;">✦</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;margin-bottom:16px;">Grazie!</h2>
+    <p style="color:var(--warm-gray);margin-bottom:32px;">Vi risponderemo entro 24 ore.<br>Non vediamo l'ora di conoscere la vostra storia.</p>
+    <button onclick="document.getElementById('form-success').style.display='none'" style="background:var(--gold);color:var(--dark);border:none;padding:14px 36px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">Chiudi</button>
+  </div>
+</div>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  setTimeout(() => {
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  }, 80);
+});
+document.querySelectorAll('a,button,input,select,textarea,.tech-col').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+    ring.style.transform = 'translate(-50%,-50%) scale(1.5)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.transform = 'translate(-50%,-50%) scale(1)';
+  });
+});
+
+// NAV SCROLL
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// HERO CANVAS — Animated 360-style particle wedding scene
+(function(){
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], flowers = [];
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Create floating bokeh/petal particles
+  for(let i=0;i<120;i++){
+    particles.push({
+      x: Math.random()*W, y: Math.random()*H,
+      r: Math.random()*3+1,
+      vx: (Math.random()-.5)*.3,
+      vy: -Math.random()*.4-.1,
+      o: Math.random()*.6+.1,
+      gold: Math.random()>.5
+    });
+  }
+
+  // Golden rings
+  let rings = [];
+  for(let i=0;i<5;i++){
+    rings.push({cx:W*.3+Math.random()*W*.4, cy:H*.3+Math.random()*H*.4,
+      r:Math.random()*80+20, speed:Math.random()*.002+.001,
+      t:Math.random()*Math.PI*2
+    });
+  }
+
+  function drawWeddingScene() {
+    ctx.clearRect(0,0,W,H);
+
+    // Dark gradient background
+    const bg = ctx.createRadialGradient(W/2,H*.4,0,W/2,H*.4,W*.8);
+    bg.addColorStop(0,'#2A1F14');
+    bg.addColorStop(.5,'#14100C');
+    bg.addColorStop(1,'#0A0806');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0,0,W,H);
+
+    // Draw soft glow orbs
+    let orbs = [{x:W*.2,y:H*.3,r:200,c:'rgba(201,169,110,0.06)'},{x:W*.8,y:H*.6,r:250,c:'rgba(139,74,74,0.05)'},{x:W*.5,y:H*.2,r:300,c:'rgba(201,169,110,0.04)'}];
+    orbs.forEach(o=>{
+      const g = ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+      g.addColorStop(0,o.c);
+      g.addColorStop(1,'transparent');
+      ctx.fillStyle=g;
+      ctx.fillRect(0,0,W,H);
+    });
+
+    // Floating particles
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.y<-10){p.y=H+10;p.x=Math.random()*W;}
+      if(p.x<-10)p.x=W+10;
+      if(p.x>W+10)p.x=-10;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle = p.gold ? `rgba(201,169,110,${p.o})` : `rgba(249,244,238,${p.o*.5})`;
+      ctx.fill();
+    });
+
+    // Animated golden rings / halos
+    rings.forEach(ring=>{
+      ring.t += ring.speed;
+      const px = ring.cx + Math.cos(ring.t)*20;
+      const py = ring.cy + Math.sin(ring.t*1.3)*10;
+      ctx.beginPath();
+      ctx.arc(px,py,ring.r,0,Math.PI*2);
+      ctx.strokeStyle='rgba(201,169,110,0.06)';
+      ctx.lineWidth=1;
+      ctx.stroke();
+    });
+
+    // Central cross/star light
+    const cx=W/2, cy=H*.42;
+    const rays = [[0,-1],[.7,-.7],[1,0],[.7,.7],[0,1],[-.7,.7],[-1,0],[-.7,-.7]];
+    rays.forEach(([dx,dy])=>{
+      const grad = ctx.createLinearGradient(cx,cy,cx+dx*200,cy+dy*200);
+      grad.addColorStop(0,'rgba(201,169,110,0.12)');
+      grad.addColorStop(1,'transparent');
+      ctx.fillStyle=grad;
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      const perp = [-dy,dx];
+      ctx.lineTo(cx+perp[0]*4,cy+perp[1]*4);
+      ctx.lineTo(cx+dx*200+perp[0]*2,cy+dy*200+perp[1]*2);
+      ctx.lineTo(cx+dx*200-perp[0]*2,cy+dy*200-perp[1]*2);
+      ctx.lineTo(cx-perp[0]*4,cy-perp[1]*4);
+      ctx.closePath();
+      ctx.fill();
+    });
+
+    requestAnimationFrame(drawWeddingScene);
+  }
+  drawWeddingScene();
+})();
+
+// 360 INTERACTIVE VIEWER
+(function(){
+  const canvas = document.getElementById('canvas360');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  let yaw = 0, pitch = 0;
+  let dragging = false, lastX = 0, lastY = 0;
+  let moved = false;
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    W = canvas.width = rect.width;
+    H = canvas.height = rect.height;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); });
+
+  // Equirectangular simulation: render a panoramic wedding scene
+  function drawPano() {
+    ctx.clearRect(0,0,W,H);
+
+    // Sky gradient (changes with pitch)
+    const skyShift = pitch * 0.3;
+    const skyGrad = ctx.createLinearGradient(0, skyShift*H, 0, H + skyShift*H);
+    skyGrad.addColorStop(0, '#1A0F28');
+    skyGrad.addColorStop(0.35, '#3D2B1F');
+    skyGrad.addColorStop(0.6, '#6B4A2E');
+    skyGrad.addColorStop(1, '#C9A96E');
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Sun/warm light source — moves with yaw
+    const sunX = (W/2) + Math.sin(yaw) * W * 0.4;
+    const sunY = H * 0.3 - pitch * H * 0.3;
+    const sunGrad = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, W*0.5);
+    sunGrad.addColorStop(0, 'rgba(249,220,150,0.5)');
+    sunGrad.addColorStop(0.3, 'rgba(201,169,110,0.2)');
+    sunGrad.addColorStop(1, 'transparent');
+    ctx.fillStyle = sunGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Floor — marble/stone
+    const floorY = H * 0.55 + pitch * H * 0.2;
+    const floorGrad = ctx.createLinearGradient(0, floorY, 0, H);
+    floorGrad.addColorStop(0, '#C4A882');
+    floorGrad.addColorStop(0.4, '#A8896A');
+    floorGrad.addColorStop(1, '#7A6040');
+    ctx.fillStyle = floorGrad;
+    ctx.fillRect(0, floorY, W, H - floorY);
+
+    // Marble veins
+    ctx.save();
+    ctx.globalAlpha = 0.15;
+    for(let i=0;i<6;i++){
+      const vx = ((i*0.18 + yaw*0.05) % 1) * W * 2 - W*0.5;
+      ctx.beginPath();
+      ctx.moveTo(vx, floorY);
+      ctx.bezierCurveTo(vx+30, floorY+H*0.1, vx-20, floorY+H*0.3, vx+10, H);
+      ctx.strokeStyle = '#F0E0C0';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // Columns — appear at different yaw positions
+    const cols = [-.8, -.3, .3, .8, 1.3, 1.8];
+    cols.forEach(offset => {
+      const cx = (W/2) + (Math.sin(yaw + offset * Math.PI) * W * 0.7);
+      if(cx < -100 || cx > W+100) return;
+      const colW = 30 + Math.abs(Math.cos(yaw + offset*Math.PI))*10;
+      const colH = H * 0.55;
+
+      // Column shaft
+      const colGrad = ctx.createLinearGradient(cx-colW/2, 0, cx+colW/2, 0);
+      colGrad.addColorStop(0, '#8A7055');
+      colGrad.addColorStop(0.3, '#D4B896');
+      colGrad.addColorStop(0.7, '#E8D4B8');
+      colGrad.addColorStop(1, '#9A8060');
+      ctx.fillStyle = colGrad;
+      ctx.fillRect(cx - colW/2, floorY - colH, colW, colH);
+
+      // Capital
+      ctx.fillStyle = '#D4B896';
+      ctx.fillRect(cx - colW*0.8, floorY - colH, colW*1.6, 16);
+      ctx.fillRect(cx - colW*0.6, floorY - colH + 16, colW*1.2, 10);
+
+      // Base
+      ctx.fillStyle = '#C4A882';
+      ctx.fillRect(cx - colW*0.7, floorY - 12, colW*1.4, 12);
+    });
+
+    // Arch / ceiling elements
+    const archCX = (W/2) + Math.sin(yaw * 0.3) * W * 0.1;
+    ctx.save();
+    ctx.globalAlpha = 0.4;
+    for(let a=0;a<3;a++){
+      const ax = archCX + (a-1)*W*0.3;
+      ctx.beginPath();
+      ctx.arc(ax, floorY - H*0.4, W*0.2, Math.PI, 0);
+      ctx.strokeStyle = '#C9A96E';
+      ctx.lineWidth = 4;
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // Flower arrangements — left and right
+    function drawFlowers(bx, by) {
+      // Stems
+      for(let i=0;i<8;i++){
+        const sx = bx + (i-4)*8;
+        const angle = (i-4)*0.12 + Math.sin(i)*0.1;
+        ctx.beginPath();
+        ctx.moveTo(sx, by);
+        ctx.quadraticCurveTo(sx+Math.sin(angle)*20, by-40, sx+Math.sin(angle)*35, by-70-i*3);
+        ctx.strokeStyle = '#4A7A40';
+        ctx.lineWidth = 1.5;
+        ctx.globalAlpha = 0.8;
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      // Blooms
+      const colors = ['#E8A0A0','#F0C0B0','#FFFFFF','#FFE4E1','#FFC0CB','#F5DEB3'];
+      for(let i=0;i<12;i++){
+        const fx = bx + (Math.random()*60-30);
+        const fy = by - 40 - Math.random()*60;
+        ctx.beginPath();
+        ctx.arc(fx, fy, 5+Math.random()*8, 0, Math.PI*2);
+        ctx.fillStyle = colors[i%colors.length];
+        ctx.globalAlpha = 0.85;
+        ctx.fill();
+        // Petals
+        for(let p=0;p<5;p++){
+          const pa = (p/5)*Math.PI*2;
+          const pr = 4+Math.random()*4;
+          ctx.beginPath();
+          ctx.ellipse(fx+Math.cos(pa)*pr*1.5, fy+Math.sin(pa)*pr*1.5, pr, pr*0.6, pa, 0, Math.PI*2);
+          ctx.fillStyle = colors[i%colors.length];
+          ctx.globalAlpha = 0.6;
+          ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    // Left arrangement
+    const lx = (W/2) + Math.sin(yaw - 0.6) * W * 0.5;
+    const rx = (W/2) + Math.sin(yaw + 0.6) * W * 0.5;
+    if(lx > -50 && lx < W+50) drawFlowers(lx, floorY - 5);
+    if(rx > -50 && rx < W+50) drawFlowers(rx, floorY - 5);
+
+    // Gold particles floating
+    ctx.save();
+    const t = Date.now() * 0.001;
+    for(let i=0;i<25;i++){
+      const px = ((i*0.13 + yaw*0.08 + t*0.03) % 1) * W;
+      const py = ((Math.sin(i*1.3+t)*0.5+0.5) * 0.6 + 0.1) * H;
+      const po = (Math.sin(i*2.1+t*1.3)+1)*0.25+0.1;
+      ctx.beginPath();
+      ctx.arc(px, py, 1.5, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(201,169,110,${po})`;
+      ctx.fill();
+    }
+    ctx.restore();
+
+    // Altar / arch center piece
+    const altarX = (W/2) + Math.sin(yaw + Math.PI) * W * 0.4;
+    if(altarX > W*0.1 && altarX < W*0.9){
+      // Large arch
+      ctx.save();
+      ctx.globalAlpha = 0.3;
+      ctx.beginPath();
+      ctx.arc(altarX, floorY - H*0.3, H*0.35, Math.PI, 0);
+      ctx.strokeStyle = '#E8D5B0';
+      ctx.lineWidth = 8;
+      ctx.stroke();
+      ctx.globalAlpha = 0.15;
+      ctx.fillStyle = '#C9A96E';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // Compass indicator
+    ctx.save();
+    ctx.globalAlpha = 0.5;
+    ctx.fillStyle = 'rgba(0,0,0,0.4)';
+    ctx.fillRect(W-90, H-30, 80, 20);
+    ctx.fillStyle = '#C9A96E';
+    ctx.font = '9px Jost, sans-serif';
+    ctx.letterSpacing = '2px';
+    const deg = Math.round(((yaw % (Math.PI*2)) + Math.PI*2) % (Math.PI*2) * 180 / Math.PI);
+    ctx.fillText(`${deg}° · 360°`, W-84, H-16);
+    ctx.restore();
+
+    requestAnimationFrame(drawPano);
+  }
+
+  // Mouse drag
+  canvas.addEventListener('mousedown', e => {
+    dragging = true; lastX=e.clientX; lastY=e.clientY; moved=false;
+  });
+  window.addEventListener('mousemove', e => {
+    if(!dragging) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    yaw -= dx * 0.005;
+    pitch += dy * 0.003;
+    pitch = Math.max(-0.5, Math.min(0.5, pitch));
+    lastX=e.clientX; lastY=e.clientY;
+    if(Math.abs(dx)+Math.abs(dy)>5){
+      moved=true;
+      document.getElementById('dragHint').style.opacity='0';
+    }
+  });
+  window.addEventListener('mouseup', ()=>{ dragging=false; });
+
+  // Touch
+  let lastTX=0,lastTY=0;
+  canvas.addEventListener('touchstart', e=>{ lastTX=e.touches[0].clientX; lastTY=e.touches[0].clientY; document.getElementById('dragHint').style.opacity='0'; });
+  canvas.addEventListener('touchmove', e=>{
+    e.preventDefault();
+    const dx=e.touches[0].clientX-lastTX, dy=e.touches[0].clientY-lastTY;
+    yaw-=dx*0.005; pitch+=dy*0.003;
+    pitch=Math.max(-0.5,Math.min(0.5,pitch));
+    lastTX=e.touches[0].clientX; lastTY=e.touches[0].clientY;
+  },{passive:false});
+
+  // Auto rotate
+  let autoRotate = setInterval(()=>{ if(!dragging) yaw-=0.003; }, 16);
+
+  drawPano();
+})();
+
+// PACKAGES TAB
+function showPkg(id){
+  document.querySelectorAll('.pkg-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.pkg-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// TECH SELECTOR
+function selectTech(el){
+  document.querySelectorAll('.tech-col').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// TESTIMONIALS
+let testIdx = 0;
+function goTest(i){
+  document.querySelectorAll('.testimonial').forEach(t=>{t.classList.remove('active');});
+  document.querySelectorAll('.test-dot').forEach(d=>d.classList.remove('active'));
+  document.querySelectorAll('.testimonial')[i].classList.add('active');
+  document.querySelectorAll('.test-dot')[i].classList.add('active');
+  testIdx=i;
+}
+setInterval(()=>{ goTest((testIdx+1)%3); }, 5000);
+
+// FORM
+function handleForm(e){
+  e.preventDefault();
+  const s = document.getElementById('form-success');
+  s.style.display='flex';
+}
+
+// SCROLL ANIMATIONS
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.style.opacity='1';
+      entry.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.step,.tech-col,.channel,.feat-item').forEach(el=>{
+  el.style.opacity='0';
+  el.style.transform='translateY(20px)';
+  el.style.transition='opacity .6s ease, transform .6s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
